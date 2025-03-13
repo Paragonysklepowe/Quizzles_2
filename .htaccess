@@ -1,0 +1,21 @@
+# Restrict access to config files
+<FilesMatch "\.(config|php|ini|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Disable PHP execution in uploads
+<Directory "/uploads">
+    php_flag engine off
+</Directory>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+</IfModule>
